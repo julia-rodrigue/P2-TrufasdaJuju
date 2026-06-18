@@ -52,19 +52,12 @@ ALTER TABLE produto ADD COLUMN IF NOT EXISTS nome      VARCHAR(100);
 ALTER TABLE produto ADD COLUMN IF NOT EXISTS descricao TEXT;
 ALTER TABLE produto ADD COLUMN IF NOT EXISTS preco     NUMERIC(10,2);
 ALTER TABLE produto ADD COLUMN IF NOT EXISTS imagem_id UUID;
--- Garante a FK de imagem_id mesmo em tabela antiga (ignora se ja existir).
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints
-        WHERE constraint_name = 'produto_imagem_id_fkey'
-          AND table_name = 'produto'
-    ) THEN
-        ALTER TABLE produto
-            ADD CONSTRAINT produto_imagem_id_fkey
-            FOREIGN KEY (imagem_id) REFERENCES imagem_produto(id);
-    END IF;
-END $$;
+-- Observacao: a FK de imagem_id ja vem do CREATE TABLE quando o banco e criado
+-- do zero. Em bancos antigos onde a coluna foi adicionada pelo ALTER acima, a
+-- FK fica ausente, o que NAO impede o app de funcionar (o vinculo e garantido
+-- pela aplicacao). Evitamos blocos PL/pgSQL aqui porque o executor de scripts
+-- do Spring (ScriptUtils) quebra o SQL em cada ponto-e-virgula e nao suporta
+-- dollar-quote, o que gerava o erro "Unterminated dollar quote".
 
 CREATE TABLE IF NOT EXISTS pedido (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
