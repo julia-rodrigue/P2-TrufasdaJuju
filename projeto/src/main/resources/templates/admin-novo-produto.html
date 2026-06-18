@@ -34,9 +34,12 @@
                     <label>Imagem do produto</label>
                     <p class="form-dica">Escolha uma imagem da biblioteca ou envie uma nova.</p>
                     <div id="galeria-imagens" class="galeria-imagens">
-                        <label class="item-galeria" th:each="imagem : ${imagens}">
+                        <label class="item-galeria" th:each="imagem : ${imagens}" th:attr="data-imagem-id=${imagem.id}">
                             <input type="radio" name="imagemId" th:value="${imagem.id}">
                             <img th:src="@{${imagem.caminho}}" th:alt="${imagem.nomeArquivo}">
+                            <button type="button" class="item-galeria-excluir" title="Excluir imagem" th:attr="data-id=${imagem.id}">
+                                <span th:replace="~{fragments/icones :: icone-excluir}"></span>
+                            </button>
                         </label>
                     </div>
                 </div>

@@ -729,6 +729,7 @@ body.painel-admin {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.4rem;
   padding: 0.6rem 1.2rem;
   border-radius: 10px;
   font-family: var(--font-corpo);
@@ -737,7 +738,16 @@ body.painel-admin {
   cursor: pointer;
   text-align: center;
   transition: background-color var(--transition), color var(--transition), box-shadow var(--transition);
-  width: 100%;
+  width: auto;
+}
+
+/* Garante que os icones SVG dentro de qualquer botao tenham tamanho fixo.
+   Sem isto, SVGs inline sem width/height assumem o tamanho padrao do
+   navegador (300x150) e esticam o botao inteiro. */
+.btn-painel svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .btn-painel--cheio {
@@ -1025,6 +1035,132 @@ body.painel-admin {
   font-weight: 700;
   color: var(--rosa-escuro);
   font-size: 1rem;
+}
+
+/* ---------- Ações de admin nos cards de produto ---------- */
+
+.produto-card-acoes {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 1rem 0.9rem;
+}
+
+.btn-acao {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  font-family: var(--font-corpo);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.btn-acao svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.btn-acao--editar {
+  background-color: transparent;
+  color: var(--rosa-escuro);
+  border-color: var(--rosa);
+}
+
+.btn-acao--editar:hover {
+  background-color: #FDE8F0;
+}
+
+.btn-acao--excluir {
+  background-color: transparent;
+  color: #C8557F;
+  border-color: #E8A4BE;
+}
+
+.btn-acao--excluir:hover {
+  background-color: #FBE2EA;
+}
+
+/* Botão de excluir sobreposto em cada imagem da galeria */
+.item-galeria-excluir {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 6px;
+  background-color: rgba(200, 85, 127, 0.85);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0;
+  transition: opacity var(--transition), background-color var(--transition);
+}
+
+.item-galeria:hover .item-galeria-excluir {
+  opacity: 1;
+}
+
+.item-galeria-excluir svg {
+  width: 13px;
+  height: 13px;
+}
+
+.item-galeria-excluir:hover {
+  background-color: #B0436B;
+}
+
+/* ---------- Modal de edição ---------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(120, 50, 75, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.modal-card {
+  background-color: var(--branco);
+  border-radius: var(--radius);
+  padding: 1.8rem;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(120, 50, 75, 0.25);
+}
+
+.modal-titulo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--texto-escuro);
+  margin: 0 0 1.2rem;
+}
+
+.modal-acoes {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.modal-acoes .btn-painel {
+  width: auto;
+  min-width: 120px;
 }
 
 /* ---------- Link secundário (abaixo de formulários) ---------- */

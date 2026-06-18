@@ -40,6 +40,8 @@ public class PaginaController {
     @GetMapping("/produtos")
     public String produtos(Model model) {
         model.addAttribute("produtos", produtoService.listarProdutos());
+        // Necessário para o modal de edição do administrador (galeria de imagens).
+        model.addAttribute("imagens", produtoService.listarImagensDaBiblioteca());
         return "produtos";
     }
 

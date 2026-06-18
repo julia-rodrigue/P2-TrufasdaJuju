@@ -33,6 +33,15 @@ public class ProdutoDAO {
         jdbc.update(sql, nome, descricao, preco, imagemId);
     }
 
+    public void atualizarProduto(String id, String nome, String descricao, BigDecimal preco, String imagemId) {
+        String sql = "UPDATE produto SET nome = ?, descricao = ?, preco = ?, imagem_id = ?::uuid WHERE id = ?::uuid";
+        jdbc.update(sql, nome, descricao, preco, imagemId, id);
+    }
+
+    public void excluirProduto(String id) {
+        jdbc.update("DELETE FROM produto WHERE id = ?::uuid", id);
+    }
+
     public List<Produto> listarTodos() {
         String sql = SELECT_BASE + "ORDER BY p.nome ASC";
         return Produto.converterTodos(jdbc.queryForList(sql));

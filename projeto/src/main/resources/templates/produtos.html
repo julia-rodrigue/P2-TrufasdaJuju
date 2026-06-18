@@ -14,8 +14,12 @@
             <p class="painel-subtitulo">Confira todos os produtos cadastrados no sistema.</p>
         </div>
 
+        <p id="mensagem-lista" class="mensagem" style="display:none;"></p>
+
         <div class="produtos-grid">
-            <div class="produto-card" th:each="produto : ${produtos}">
+            <div class="produto-card"
+                 th:each="produto : ${produtos}"
+                 th:attr="data-id=${produto.id}, data-nome=${produto.nome}, data-descricao=${produto.descricao}, data-preco=${produto.preco}, data-imagem-id=${produto.imagemId}">
                 <div class="produto-card-img">
                     <img th:if="${produto.caminhoImagem != null}" th:src="@{${produto.caminhoImagem}}" th:alt="${produto.nome}">
                     <img th:if="${produto.caminhoImagem == null}" th:src="@{/img/trufas.jpeg}" alt="Produto">
@@ -24,10 +28,63 @@
                     <h3 class="produto-card-nome" th:text="${produto.nome}">Nome do produto</h3>
                     <span class="produto-card-preco" th:text="${'R$ ' + #numbers.formatDecimal(produto.preco, 1, 2)}">R$ 0,00</span>
                 </div>
+
+                <!-- Ações exclusivas do administrador -->
+                <div class="produto-card-acoes" th:if="${usuarioLogado != null and usuarioLogado.administrador}">
+                    <button type="button" class="btn-acao btn-acao--editar" th:attr="data-id=${produto.id}">
+                        <span th:replace="~{fragments/icones :: icone-editar}"></span> Editar
+                    </button>
+                    <button type="button" class="btn-acao btn-acao--excluir" th:attr="data-id=${produto.id}, data-nome=${produto.nome}">
+                        <span th:replace="~{fragments/icones :: icone-excluir}"></span> Excluir
+                    </button>
+                </div>
             </div>
         </div>
 
         <p th:if="${#lists.isEmpty(produtos)}" class="vazio">Nenhum produto cadastrado até o momento.</p>
     </main>
+
+    <!-- Modal de edição (apenas admin) -->
+    <div id="modal-editar" class="modal-overlay" style="display:none;"
+         th:if="${usuarioLogado != null and usuarioLogado.administrador}">
+        <div class="modal-card">
+            <h2 class="modal-titulo">Editar produto</h2>
+            <div class="form-novo">
+                <input type="hidden" id="edit-id">
+                <div class="form-grupo">
+                    <label for="edit-nome">Nome do produto</label>
+                    <input type="text" id="edit-nome" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="edit-descricao">Descrição</label>
+                    <textarea id="edit-descricao" rows="3"></textarea>
+                </div>
+                <div class="form-grupo">
+                    <label for="edit-preco">Preço (R$)</label>
+                    <input type="number" id="edit-preco" min="0.01" step="0.01" required>
+                </div>
+                <div class="form-grupo">
+                    <label>Imagem do produto</label>
+                    <div id="edit-galeria" class="galeria-imagens">
+                        <label class="item-galeria" th:each="imagem : ${imagens}">
+                            <input type="radio" name="editImagemId" th:value="${imagem.id}">
+                            <img th:src="@{${imagem.caminho}}" th:alt="${imagem.nomeArquivo}">
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-acoes">
+                    <button type="button" id="btn-cancelar-edicao" class="btn-painel btn-painel--contorno btn-painel--sm">Cancelar</button>
+                    <button type="button" id="btn-salvar-edicao" class="btn-painel btn-painel--cheio btn-painel--sm">Salvar alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:if="${usuarioLogado != null and usuarioLogado.administrador}" th:inline="javascript">
+        /*<![CDATA[*/
+        const URL_API_PRODUTOS = /*[[@{/api/admin/produtos}]]*/ '/api/admin/produtos';
+        /*]]>*/
+    </script>
+    <script th:if="${usuarioLogado != null and usuarioLogado.administrador}" th:src="@{/js/admin-lista-produtos.js}"></script>
 </body>
 </html>

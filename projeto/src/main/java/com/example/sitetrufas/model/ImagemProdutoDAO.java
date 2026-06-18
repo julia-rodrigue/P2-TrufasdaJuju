@@ -38,4 +38,15 @@ public class ImagemProdutoDAO {
         String sql = "SELECT * FROM imagem_produto WHERE id = ?::uuid";
         return ImagemProduto.converter(jdbc.queryForMap(sql, id));
     }
+
+    /** Quantos produtos usam esta imagem. Usado antes de excluir. */
+    public int contarProdutosUsando(String imagemId) {
+        String sql = "SELECT COUNT(*) FROM produto WHERE imagem_id = ?::uuid";
+        Integer total = jdbc.queryForObject(sql, Integer.class, imagemId);
+        return total != null ? total : 0;
+    }
+
+    public void excluirImagem(String id) {
+        jdbc.update("DELETE FROM imagem_produto WHERE id = ?::uuid", id);
+    }
 }
