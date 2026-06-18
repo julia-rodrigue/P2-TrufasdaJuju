@@ -43,6 +43,12 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
+	<dependency>
+    <groupId>me.paulschwarz</groupId>
+    <artifactId>spring-dotenv</artifactId>
+    <version>4.0.0</version>
+</dependency>	
 
 	<build>
 		<plugins>
@@ -52,11 +58,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<dependency>
-    <groupId>me.paulschwarz</groupId>
-    <artifactId>spring-dotenv</artifactId>
-    <version>4.0.0</version>
-</dependency>	
 
 </project>
