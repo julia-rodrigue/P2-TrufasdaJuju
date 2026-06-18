@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Produtos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script th:src="@{/js/script.js}"></script>
+</head>
+<body>
+    <header>
+        <a th:href="@{/}">
+          <h1>Trufas da Juju</h1>
+        </a>
+        <nav>
+         <a th:href="@{/}">Início</a> | 
+         <a th:href="@{/produtos}">Produtos</a> |
+         <a th:href="@{/pedidos}">Pedidos</a> |
+         <a th:href="@{/historico}">Histórico</a>
+        </nav>
+      </header>
+
+	<h1>Produtos disponíveis</h1>
+	<div class="grid">
+
+        <div class="card"><img th:src="@{/img/trufas.jpeg}"><p>Trufas</p></div>
+        <div class="card"><img th:src="@{/img/moussemaracuja.jpeg}"><p>Mousse de maracujá</p></div>
+        <div class="card"><img th:src="@{/img/moussesensacao.jpeg}"><p>Mousse sensação</div>
+        <div class="card"><img th:src="@{/img/mousseninho.jpeg}"><p>Mousse de ninho</p></div>
+        <div class="card"><img th:src="@{/img/mousselimao.jpeg}"><p>Mousse de limão</p></div>
+        <div class="card"><img th:src="@{/img/tortamorango.jpeg}"><p>Torta de morango</p></div>
+        <div class="card"><img th:src="@{/img/tortalimao.jpeg}"><p>Torta de limão</p></div>
+        <div class="card"><img th:src="@{/img/trufas.jpeg}"><p>Cento de mini trufas</p></div>
+        <div class="card"><img th:src="@{/img/merengue.jpeg}"><p>Merengue</p></div>
+        <div class="card"><img th:src="@{/img/espetomorango.jpeg}"><p>Espeto de morango</p></div>
+      
+      </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Trufas da Juju</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script th:src="@{/js/script.js}"></script>
+</head>
+<body>
+    <header>
+        <a th:href="@{/}">
+          <h1>Trufas da Juju</h1>
+        </a>
+        <nav>
+         <a th:href="@{/}">Início</a> | 
+         <a th:href="@{/produtos}">Produtos</a> |
+         <a th:href="@{/pedidos}">Pedidos</a> |
+         <a th:href="@{/historico}">Histórico</a>
+        </nav>
+      </header>
+
+	<h1>Bem-vindo(a) ás Trufas da Juju</h1>
+
+    <h2>Top 3 Produtos</h2>
+
+    <div class="cards">
+    <div class="card">
+        <img th:src="@{/img/trufas.jpeg}">
+        <h3>Trufa de maracujá</h3>
+        <p>trufa de chocolate blend com recheio mousse  de maracujá</p>
+    </div>
+
+    <div class="card">
+        <img th:src="@{/img/espetomorango.jpeg}">
+        <h3>Espeto de morango</h3>
+        <p>Espeto de morango banhado de chocolate com confeitos de chocoball</p>
+    </div>
+
+    <div class="card">
+        <img th:src="@{/img/tortalimao.jpeg}">
+        <h3>Torta de limão</h3>
+        <p>Torta com massa crocante recheio de mousse de limão e glâce</p>
+    </div>
+    </div>
+
+	
+</body>
+</html>

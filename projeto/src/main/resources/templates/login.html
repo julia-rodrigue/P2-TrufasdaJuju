@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Entrar - Trufas da Juju</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="painel-admin">
+    <div th:replace="~{fragments/header :: cabecalho}"></div>
+
+    <main class="painel-main painel-main--estreito">
+        <div class="painel-boas-vindas">
+            <h1 class="painel-titulo">Entrar</h1>
+            <p class="painel-subtitulo">Acesse sua conta para continuar.</p>
+        </div>
+
+        <p th:if="${erro}" class="mensagem mensagem-erro" th:text="${erro}">Erro</p>
+        <p th:if="${sucesso}" class="mensagem mensagem-sucesso" th:text="${sucesso}">Sucesso</p>
+
+        <div class="form-card">
+            <form th:action="@{/login}" method="post" class="form-novo">
+                <div class="form-grupo">
+                    <label for="identificador">E-mail ou CPF</label>
+                    <input type="text" id="identificador" name="identificador" required autofocus>
+                </div>
+                <div class="form-grupo">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" required>
+                </div>
+                <button type="submit" class="btn-painel btn-painel--cheio btn-painel--full">
+                    <span th:replace="~{fragments/icones :: icone-entrar}"></span> Entrar
+                </button>
+            </form>
+        </div>
+
+        <p class="link-secundario">Ainda não tem conta? <a th:href="@{/cadastro}">Criar conta</a></p>
+    </main>
+</body>
+</html>

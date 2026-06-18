@@ -1,0 +1,1074 @@
+/* ===================================================================
+   Trufas da Juju - estilos gerais
+   Paleta: amarelo claro, amarelo, rosa claro e rosa (cores sólidas,
+   sem gradiente). Visual moderno, limpo e organizado.
+   =================================================================== */
+
+:root {
+  --amarelo-claro: #FFFDC0;
+  --amarelo:       #FDF89A;
+  --rosa-claro:    #FBC5DC;
+  --rosa:          #FD97BC;
+  --rosa-escuro:   #E36E97;
+  --amarelo-escuro:#D9A800;
+
+  --texto-escuro:  #4A3140;
+  --texto-medio:   #8A6B79;
+  --branco:        #FFFFFF;
+
+  --radius:        16px;
+  --radius-sm:     10px;
+  --sombra:        0 6px 18px rgba(227, 110, 151, 0.16);
+  --sombra-suave:  0 2px 8px rgba(227, 110, 151, 0.10);
+  --transition:    0.2s ease;
+
+  --font-titulo:   'Poppins', 'Segoe UI', Arial, sans-serif;
+  --font-corpo:    'Segoe UI', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-corpo);
+  color: var(--texto-escuro);
+  background-color: var(--amarelo-claro);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-titulo);
+  font-weight: 700;
+  color: var(--rosa-escuro);
+}
+
+body > h1:first-of-type {
+  text-align: center;
+  margin: 2.2rem auto 0.3rem;
+  font-size: 2rem;
+}
+
+body > h2 {
+  text-align: center;
+  color: var(--amarelo-escuro);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 auto 0.5rem;
+}
+
+/* ---------- Cabeçalho / navegação ---------- */
+
+header {
+  background-color: var(--branco);
+  box-shadow: var(--sombra-suave);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+header .logo h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--rosa-escuro);
+}
+
+header .logo .icone-decorativo {
+  width: 26px;
+  height: 26px;
+  color: var(--amarelo-escuro);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+nav a, nav .usuario-logado {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--texto-medio);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+nav a svg {
+  width: 17px;
+  height: 17px;
+}
+
+nav a:hover {
+  background-color: var(--rosa-claro);
+  color: var(--rosa-escuro);
+}
+
+nav a.destaque {
+  background-color: var(--rosa);
+  color: var(--branco);
+}
+
+nav a.destaque:hover {
+  background-color: var(--rosa-escuro);
+  color: var(--branco);
+}
+
+nav .usuario-logado {
+  color: var(--amarelo-escuro);
+  font-weight: 700;
+}
+
+/* ---------- Cards de produtos / cardápio ---------- */
+
+.cards, .grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  max-width: 1100px;
+  margin: 2rem auto 3rem;
+  padding: 0 1.5rem;
+}
+
+.card {
+  background-color: var(--branco);
+  border: 1.5px solid var(--rosa-claro);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  flex: 1 1 250px;
+  max-width: 270px;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra);
+}
+
+.card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  display: block;
+}
+
+.card h3 {
+  font-size: 1.05rem;
+  color: var(--rosa-escuro);
+  padding: 0.9rem 1rem 0.3rem;
+  margin: 0;
+}
+
+.card p {
+  font-size: 0.88rem;
+  color: var(--texto-medio);
+  padding: 0 1rem 1rem;
+  line-height: 1.5;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.grid .card p:first-of-type {
+  font-weight: 700;
+  color: var(--texto-escuro);
+  text-align: center;
+  padding: 0.9rem 0.75rem 0.2rem;
+  flex-grow: 0;
+}
+
+.preco {
+  font-weight: 700;
+  color: var(--amarelo-escuro) !important;
+  text-align: center;
+  font-size: 1.05rem !important;
+  padding-top: 0 !important;
+}
+
+/* ---------- Botões ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.3rem;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-corpo);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+  color: var(--branco);
+  background-color: var(--rosa);
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra);
+}
+
+.btn-editar {
+  background-color: var(--rosa);
+}
+
+.btn-editar:hover {
+  background-color: var(--rosa-escuro);
+}
+
+.btn-salvar {
+  background-color: #8FC9A9;
+}
+
+.btn-salvar:hover {
+  background-color: #6FB088;
+}
+
+.btn-cancelar {
+  background-color: #E8DCE2;
+  color: var(--texto-escuro);
+}
+
+.btn-cancelar:hover {
+  background-color: #D8C3CF;
+}
+
+.btn-deletar {
+  background-color: var(--rosa-escuro);
+}
+
+.btn-deletar:hover {
+  background-color: #C8557F;
+}
+
+button:disabled,
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---------- Tabelas (Histórico / Meus Pedidos) ---------- */
+
+table {
+  width: calc(100% - 3rem);
+  max-width: 900px;
+  margin: 1.5rem auto 3rem;
+  border-collapse: collapse;
+  background-color: var(--branco);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  font-size: 0.95rem;
+}
+
+th, td {
+  padding: 0.85rem 1.1rem;
+  text-align: left;
+}
+
+th {
+  background-color: var(--rosa);
+  color: var(--branco);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--rosa-claro);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: var(--amarelo-claro);
+}
+
+tr.editando {
+  background-color: var(--rosa-claro) !important;
+}
+
+.acoes {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.input-edicao {
+  width: 100%;
+  min-width: 110px;
+  padding: 0.4rem 0.6rem;
+  border: 1.5px solid var(--rosa);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-corpo);
+  font-size: 0.9rem;
+  background-color: var(--branco);
+  color: var(--texto-escuro);
+}
+
+.input-edicao:focus {
+  outline: none;
+  border-color: var(--rosa-escuro);
+  box-shadow: 0 0 0 3px rgba(227, 110, 151, 0.18);
+}
+
+/* ---------- Mensagens de feedback ---------- */
+
+.mensagem {
+  max-width: 900px;
+  margin: 0 auto 1rem;
+  padding: 0.8rem 1.3rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-align: center;
+}
+
+.mensagem-sucesso {
+  background-color: #E7F6EC;
+  color: #3E8E5B;
+  border: 1.5px solid #8FC9A9;
+}
+
+.mensagem-erro {
+  background-color: #FDEAEF;
+  color: var(--rosa-escuro);
+  border: 1.5px solid var(--rosa);
+}
+
+.vazio {
+  text-align: center;
+  color: var(--texto-medio);
+  font-size: 1rem;
+  margin: 1.5rem auto 3rem;
+}
+
+/* ---------- Formulários (login, cadastro, pedido, produto) ---------- */
+
+.form-padrao {
+  max-width: 480px;
+  margin: 1.5rem auto 3rem;
+  padding: 2rem 2.2rem;
+  background-color: var(--branco);
+  border-radius: var(--radius);
+  box-shadow: var(--sombra-suave);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-padrao label {
+  font-weight: 700;
+  color: var(--texto-escuro);
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
+}
+
+.form-padrao input,
+.form-padrao select,
+.form-padrao textarea {
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid var(--rosa-claro);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-corpo);
+  font-size: 0.95rem;
+  color: var(--texto-escuro);
+  background-color: var(--branco);
+}
+
+.form-padrao input:focus,
+.form-padrao select:focus,
+.form-padrao textarea:focus {
+  outline: none;
+  border-color: var(--rosa);
+  box-shadow: 0 0 0 3px rgba(253, 151, 188, 0.25);
+}
+
+.form-padrao button {
+  margin-top: 1.4rem;
+  align-self: flex-start;
+}
+
+.form-padrao .dica {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--texto-medio);
+}
+
+.link-secundario {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--texto-medio);
+}
+
+.link-secundario a {
+  color: var(--rosa-escuro);
+  font-weight: 700;
+}
+
+/* ---------- Biblioteca de imagens - cadastro de produto ---------- */
+
+.galeria-imagens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.item-galeria {
+  position: relative;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  width: 78px;
+  height: 78px;
+}
+
+.item-galeria img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.item-galeria input {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.item-galeria:has(input:checked) {
+  border-color: var(--rosa-escuro);
+}
+
+#status-upload {
+  display: inline-block;
+  margin-left: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--texto-medio);
+}
+
+/* ---------- Decoração: coraçãozinhos e abelhinha ---------- */
+
+.icone-decorativo {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.decoracao-coracao {
+  color: var(--rosa);
+  width: 20px;
+  height: 20px;
+}
+
+.decoracao-abelha {
+  color: var(--amarelo-escuro);
+  width: 22px;
+  height: 22px;
+}
+
+h1 .decoracao-coracao,
+h2 .decoracao-coracao {
+  margin: 0 0.3rem;
+}
+
+/* ---------- Rodapé (página Home) ---------- */
+
+footer.rodape {
+  margin-top: auto;
+  background-color: var(--branco);
+  border-top: 1.5px solid var(--rosa-claro);
+  padding: 1.6rem 1.5rem;
+  text-align: center;
+  color: var(--texto-medio);
+  font-size: 0.88rem;
+}
+
+footer.rodape .linha-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+footer.rodape strong {
+  color: var(--rosa-escuro);
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 700px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.9rem 1.2rem;
+    gap: 0.6rem;
+  }
+
+  nav {
+    gap: 0.25rem;
+  }
+
+  nav a, nav .usuario-logado {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.75rem;
+  }
+
+  body > h1:first-of-type {
+    font-size: 1.5rem;
+    margin-top: 1.6rem;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+
+  table {
+    width: calc(100% - 2rem);
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    padding: 0.65rem 0.85rem;
+  }
+}
+
+/* ===================================================================
+   Painel Administrativo (index.html admin)
+   =================================================================== */
+
+body.painel-admin {
+  background-color: #FFF0F5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- Header Admin ---------- */
+
+.header-admin {
+  background-color: #FADADD;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(227, 110, 151, 0.12);
+}
+
+.header-admin-logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.header-admin-titulo {
+  font-family: var(--font-titulo);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--rosa-escuro);
+  letter-spacing: 0.04em;
+}
+
+.header-admin-sub {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--rosa-escuro);
+  letter-spacing: 0.1em;
+  opacity: 0.75;
+}
+
+.header-admin-usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--texto-medio);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.header-admin-usuario svg {
+  width: 20px;
+  height: 20px;
+  color: var(--rosa-escuro);
+}
+
+/* ---------- Conteúdo principal ---------- */
+
+.painel-main {
+  flex: 1;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.painel-boas-vindas {
+  margin-bottom: 1.8rem;
+}
+
+.painel-titulo {
+  font-family: var(--font-titulo);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--texto-escuro);
+  margin: 0 0 0.3rem;
+}
+
+.painel-subtitulo {
+  font-size: 0.92rem;
+  color: var(--texto-medio);
+  margin: 0;
+}
+
+/* ---------- Grid de cards ---------- */
+
+.painel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.painel-card {
+  background-color: var(--branco);
+  border: 1.5px solid #F2D4DF;
+  border-radius: var(--radius);
+  padding: 1.4rem 1.4rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(227, 110, 151, 0.08);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.painel-card:hover {
+  box-shadow: var(--sombra);
+  transform: translateY(-3px);
+}
+
+.painel-card--destaque {
+  border-color: var(--rosa);
+  box-shadow: 0 2px 12px rgba(253, 151, 188, 0.22);
+}
+
+.painel-card-icone {
+  width: 56px;
+  height: 56px;
+  background-color: #FDE8F0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rosa-escuro);
+  margin-bottom: 0.3rem;
+}
+
+.painel-card-titulo {
+  font-family: var(--font-titulo);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--texto-escuro);
+  margin: 0;
+}
+
+.painel-card-titulo--rosa {
+  color: var(--rosa-escuro);
+}
+
+.painel-card-desc {
+  font-size: 0.87rem;
+  color: var(--texto-medio);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.painel-card-texto {
+  flex: 1;
+}
+
+/* ---------- Botões do Painel ---------- */
+
+.btn-painel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-family: var(--font-corpo);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color var(--transition), color var(--transition), box-shadow var(--transition);
+  width: 100%;
+}
+
+.btn-painel--cheio {
+  background-color: var(--rosa);
+  color: var(--branco);
+  border: none;
+}
+
+.btn-painel--cheio:hover {
+  background-color: var(--rosa-escuro);
+  box-shadow: var(--sombra);
+}
+
+.btn-painel--contorno {
+  background-color: transparent;
+  color: var(--rosa-escuro);
+  border: 1.5px solid var(--rosa);
+}
+
+.btn-painel--contorno:hover {
+  background-color: #FDE8F0;
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 600px) {
+  .painel-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-admin {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .painel-titulo {
+    font-size: 1.1rem;
+  }
+}
+
+/* ===================================================================
+   Novos estilos compartilhados - design unificado
+   =================================================================== */
+
+/* ---------- Header nav unificado ---------- */
+
+.header-admin-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.header-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--rosa-escuro);
+  text-decoration: none;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.header-nav-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.header-nav-link:hover {
+  background-color: rgba(227, 110, 151, 0.12);
+}
+
+.header-nav-link--destaque {
+  background-color: var(--rosa);
+  color: var(--branco);
+}
+
+.header-nav-link--destaque:hover {
+  background-color: var(--rosa-escuro);
+  color: var(--branco);
+}
+
+/* ---------- Layout main estreito (formulários) ---------- */
+
+.painel-main--estreito {
+  max-width: 520px;
+}
+
+/* ---------- Form card (formulários dentro de card branco) ---------- */
+
+.form-card {
+  background-color: var(--branco);
+  border: 1.5px solid #F2D4DF;
+  border-radius: var(--radius);
+  padding: 1.8rem 2rem;
+  box-shadow: 0 2px 8px rgba(227, 110, 151, 0.08);
+  margin-bottom: 1rem;
+}
+
+.form-novo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-grupo label {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--texto-escuro);
+}
+
+.form-grupo input,
+.form-grupo select,
+.form-grupo textarea {
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid #F2D4DF;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-corpo);
+  font-size: 0.93rem;
+  color: var(--texto-escuro);
+  background-color: var(--branco);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-grupo input:focus,
+.form-grupo select:focus,
+.form-grupo textarea:focus {
+  outline: none;
+  border-color: var(--rosa);
+  box-shadow: 0 0 0 3px rgba(253, 151, 188, 0.2);
+}
+
+.form-dica {
+  font-size: 0.82rem;
+  color: var(--texto-medio);
+  margin: 0;
+}
+
+.form-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+/* ---------- Botões do painel - variações extras ---------- */
+
+.btn-painel--full {
+  width: 100%;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1.2rem;
+  font-size: 0.95rem;
+}
+
+.btn-painel--sm {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.82rem;
+  border-radius: 8px;
+}
+
+.btn-painel--perigo {
+  background-color: var(--rosa-escuro);
+  color: var(--branco);
+  border: none;
+}
+
+.btn-painel--perigo:hover {
+  background-color: #C8557F;
+}
+
+/* ---------- Tabelas admin ---------- */
+
+.tabela-wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 10px rgba(227, 110, 151, 0.10);
+  border: 1.5px solid #F2D4DF;
+  background-color: var(--branco);
+  margin-bottom: 1rem;
+}
+
+.tabela-admin {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  background-color: var(--branco);
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.tabela-admin th {
+  background-color: #FADADD;
+  color: var(--rosa-escuro);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.85rem 1.1rem;
+  text-align: left;
+}
+
+.tabela-admin td {
+  padding: 0.8rem 1.1rem;
+  color: var(--texto-escuro);
+  border-bottom: 1px solid #F9E4EC;
+}
+
+.tabela-admin tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela-admin tbody tr:hover {
+  background-color: #FFF5F8;
+}
+
+.tabela-admin tr.editando {
+  background-color: #FDE8F0 !important;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background-color: #FDE8F0;
+  color: var(--rosa-escuro);
+}
+
+/* ---------- Produtos grid ---------- */
+
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.produto-card {
+  background-color: var(--branco);
+  border: 1.5px solid #F2D4DF;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(227, 110, 151, 0.08);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.produto-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra);
+}
+
+.produto-card-img img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.produto-card-corpo {
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.produto-card-nome {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--texto-escuro);
+  margin: 0;
+}
+
+.produto-card-preco {
+  font-weight: 700;
+  color: var(--rosa-escuro);
+  font-size: 1rem;
+}
+
+/* ---------- Link secundário (abaixo de formulários) ---------- */
+
+.link-secundario {
+  text-align: center;
+  color: var(--texto-medio);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.link-secundario a {
+  color: var(--rosa-escuro);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.link-secundario a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Responsivo adicional ---------- */
+
+@media (max-width: 600px) {
+  .header-admin-nav {
+    gap: 0.2rem;
+  }
+
+  .header-nav-link {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .form-card {
+    padding: 1.2rem 1.1rem;
+  }
+
+  .produtos-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tabela-admin th,
+  .tabela-admin td {
+    padding: 0.6rem 0.7rem;
+    font-size: 0.82rem;
+  }
+}

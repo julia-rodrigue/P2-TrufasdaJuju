@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Histórico - Trufas da Juju</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="painel-admin">
+    <div th:replace="~{fragments/header :: cabecalho}"></div>
+
+    <main class="painel-main">
+        <div class="painel-boas-vindas">
+            <h1 class="painel-titulo">Histórico de Pedidos</h1>
+            <p class="painel-subtitulo">Gerencie e atualize todos os pedidos registrados.</p>
+        </div>
+
+        <p id="mensagem" class="mensagem" style="display:none;"></p>
+
+        <div class="tabela-wrapper">
+            <table id="tabela-historico" class="tabela-admin">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Pagamento</th>
+                        <th>Retirada</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="pedido : ${pedidos}" th:id="'linha-' + ${pedido.id}" th:attr="data-id=${pedido.id}">
+                        <td class="campo-visualizacao" data-campo="nomeCliente" th:text="${pedido.nomeCliente}">—</td>
+                        <td class="campo-visualizacao" data-campo="telefone" th:text="${pedido.telefone}">—</td>
+                        <td class="campo-visualizacao" data-campo="formaPagamento" th:text="${pedido.formaPagamento}">—</td>
+                        <td class="campo-visualizacao" data-campo="dataRetirada" th:text="${pedido.dataRetirada}">—</td>
+                        <td class="campo-visualizacao" data-campo="status" th:text="${pedido.status}">—</td>
+                        <td class="acoes">
+                            <button type="button" class="btn-painel btn-painel--cheio btn-painel--sm" onclick="editarLinha(this)">
+                                <span th:replace="~{fragments/icones :: icone-editar}"></span> Editar
+                            </button>
+                            <button type="button" class="btn-painel btn-painel--perigo btn-painel--sm" onclick="deletarPedido(this)">
+                                <span th:replace="~{fragments/icones :: icone-excluir}"></span> Excluir
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p th:if="${#lists.isEmpty(pedidos)}" class="vazio">Nenhum pedido registrado até o momento.</p>
+    </main>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const URL_API = /*[[@{/api/pedidos}]]*/ '/api/pedidos';
+        /*]]>*/
+    </script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

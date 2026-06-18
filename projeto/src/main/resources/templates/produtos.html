@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Produtos - Trufas da Juju</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script th:src="@{/js/script.js}"></script>
+</head>
+<body class="painel-admin">
+    <div th:replace="~{fragments/header :: cabecalho}"></div>
+
+    <main class="painel-main">
+        <div class="painel-boas-vindas">
+            <h1 class="painel-titulo">Produtos disponíveis</h1>
+            <p class="painel-subtitulo">Confira todos os produtos cadastrados no sistema.</p>
+        </div>
+
+        <div class="produtos-grid">
+            <div class="produto-card" th:each="produto : ${produtos}">
+                <div class="produto-card-img">
+                    <img th:if="${produto.caminhoImagem != null}" th:src="@{${produto.caminhoImagem}}" th:alt="${produto.nome}">
+                    <img th:if="${produto.caminhoImagem == null}" th:src="@{/img/trufas.jpeg}" alt="Produto">
+                </div>
+                <div class="produto-card-corpo">
+                    <h3 class="produto-card-nome" th:text="${produto.nome}">Nome do produto</h3>
+                    <span class="produto-card-preco" th:text="${'R$ ' + #numbers.formatDecimal(produto.preco, 1, 2)}">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+
+        <p th:if="${#lists.isEmpty(produtos)}" class="vazio">Nenhum produto cadastrado até o momento.</p>
+    </main>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Meus Pedidos - Trufas da Juju</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .pedidos-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .pedido-card {
+            background: var(--branco);
+            border: 1.5px solid #F2D4DF;
+            border-radius: var(--radius);
+            padding: 1.2rem 1.4rem;
+            box-shadow: 0 2px 8px rgba(227,110,151,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .pedido-card-topo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pedido-data {
+            font-size: 0.82rem;
+            color: var(--texto-medio);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .status-pendente  { background-color: #FFF3C4; color: #92660A; }
+        .status-confirmado { background-color: #D1FADF; color: #166534; }
+        .status-pronto    { background-color: #DBEAFE; color: #1D4ED8; }
+        .status-entregue  { background-color: #F0FDF4; color: #15803D; }
+        .status-cancelado { background-color: #FEE2E2; color: #B91C1C; }
+        .status-default   { background-color: #FDE8F0; color: var(--rosa-escuro); }
+
+        .pedido-detalhe {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.4rem 1rem;
+            font-size: 0.87rem;
+        }
+
+        .pedido-detalhe-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+        .pedido-detalhe-label {
+            font-size: 0.75rem;
+            color: var(--texto-medio);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 600;
+        }
+        .pedido-detalhe-valor {
+            font-weight: 600;
+            color: var(--texto-escuro);
+        }
+
+        .btn-novo-pedido {
+            display: block;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+            text-align: center;
+        }
+
+        .vazio-box {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--texto-medio);
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .vazio-box svg {
+            color: var(--rosa-claro);
+            margin-bottom: 1rem;
+        }
+        .vazio-box h3 {
+            color: var(--rosa-escuro);
+            font-size: 1.1rem;
+            margin: 0 0 0.4rem;
+        }
+        .vazio-box p {
+            font-size: 0.9rem;
+            margin: 0 0 1.2rem;
+        }
+
+        @media (max-width: 500px) {
+            .pedido-detalhe { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="painel-admin">
+    <div th:replace="~{fragments/header :: cabecalho}"></div>
+
+    <main class="painel-main">
+        <div class="painel-boas-vindas">
+            <h1 class="painel-titulo">Meus Pedidos</h1>
+            <p class="painel-subtitulo">Acompanhe o status de cada pedido.</p>
+        </div>
+
+        <!-- Com pedidos -->
+        <th:block th:if="${not #lists.isEmpty(pedidos)}">
+            <div class="btn-novo-pedido">
+                <a th:href="@{/cliente/cardapio}" class="btn-painel btn-painel--cheio btn-painel--sm">
+                    + Fazer novo pedido
+                </a>
+            </div>
+
+            <div class="pedidos-lista" style="margin-top:1.2rem;">
+                <div class="pedido-card" th:each="pedido : ${pedidos}">
+                    <div class="pedido-card-topo">
+                        <span class="pedido-data" th:text="${'Pedido #' + pedido.id.substring(0, 8).toUpperCase()}">Pedido</span>
+                        <span class="status-badge"
+                              th:classappend="${pedido.status == 'PENDENTE'   ? 'status-pendente'   :
+                                               pedido.status == 'CONFIRMADO' ? 'status-confirmado' :
+                                               pedido.status == 'PRONTO'     ? 'status-pronto'     :
+                                               pedido.status == 'ENTREGUE'   ? 'status-entregue'   :
+                                               pedido.status == 'CANCELADO'  ? 'status-cancelado'  : 'status-default'}"
+                              th:text="${pedido.status}">PENDENTE</span>
+                    </div>
+                    <div class="pedido-detalhe">
+                        <div class="pedido-detalhe-item">
+                            <span class="pedido-detalhe-label">Pagamento</span>
+                            <span class="pedido-detalhe-valor" th:text="${pedido.formaPagamento}">—</span>
+                        </div>
+                        <div class="pedido-detalhe-item">
+                            <span class="pedido-detalhe-label">Retirada</span>
+                            <span class="pedido-detalhe-valor" th:text="${pedido.dataRetirada != null ? pedido.dataRetirada : '—'}">—</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+
+        <!-- Sem pedidos -->
+        <div th:if="${#lists.isEmpty(pedidos)}" class="vazio-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <h3>Nenhum pedido ainda</h3>
+            <p>Você ainda não realizou nenhum pedido. Que tal explorar nosso cardápio?</p>
+            <a th:href="@{/cliente/cardapio}" class="btn-painel btn-painel--cheio btn-painel--full">
+                Ver Cardápio
+            </a>
+        </div>
+    </main>
+</body>
+</html>

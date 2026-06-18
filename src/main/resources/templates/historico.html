@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Histórico - Trufas da Juju</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <header>
+        <a th:href="@{/}">
+          <h1>Trufas da Juju</h1>
+        </a>
+        <nav>
+         <a th:href="@{/}">Início</a>
+         <a th:href="@{/produtos}">Produtos</a>
+         <a th:href="@{/pedidos}">Pedidos</a>
+         <a th:href="@{/historico}">Histórico</a>
+        </nav>
+    </header>
+
+	<h1>Histórico de Pedidos</h1>
+	<table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Pagamento</th>
+            <th>Retirada</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="pedido : ${pedidos}">
+            <td th:text="${pedido.nomeCliente}" >—</td>
+            <td th:text="${pedido.telefone}">—</td>
+            <td th:text="${pedido.formaPagamento}">—</td>
+            <td th:text="${pedido.dataRetirada}">—</td>
+            <td th:text="${pedido.status}">—</td>
+            <td>
+                    <a th:href="@{'/pedido/' + ${pedido.id} + '/editar'}">Editar</a>
+                </td>
+            <form th:action="@{'/pedido/' + ${pedido.id} + '/deletar'}" method="post">
+                    <input type="submit" value="Deletar">
+            </form>
+          </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

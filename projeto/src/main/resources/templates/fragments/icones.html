@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Ícones SVG inline, estilo "line icon" (contorno fino), sem dependência
+     de internet ou de fontes de ícones externas. Cada um é um fragmento
+     reutilizável via th:replace="~{fragments/icones :: nome-do-icone}". -->
+
+<svg th:fragment="icone-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 11.5 12 4l9 7.5"/>
+  <path d="M5.5 10v9a1 1 0 0 0 1 1H9.5v-6h5v6H17.5a1 1 0 0 0 1-1v-9"/>
+</svg>
+
+<svg th:fragment="icone-produtos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 8h16l-1.4 11.2a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3L4 8Z"/>
+  <path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/>
+</svg>
+
+<svg th:fragment="icone-pedidos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="4" y="6" width="16" height="14" rx="2"/>
+  <path d="M9 6V5a3 3 0 0 1 6 0v1"/>
+  <path d="M8 11h8M8 14.5h5"/>
+</svg>
+
+<svg th:fragment="icone-historico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="13" r="8"/>
+  <path d="M12 9v4l3 2"/>
+  <path d="M9 2h6"/>
+</svg>
+
+<svg th:fragment="icone-usuario" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="8" r="3.4"/>
+  <path d="M5 20c0-3.6 3.1-6.2 7-6.2s7 2.6 7 6.2"/>
+</svg>
+
+<svg th:fragment="icone-sair" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/>
+  <path d="M14 8l4.5 4-4.5 4"/>
+  <path d="M18 12H9"/>
+</svg>
+
+<svg th:fragment="icone-entrar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 4h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5"/>
+  <path d="M14 8l-4.5 4 4.5 4"/>
+  <path d="M9.5 12H2"/>
+</svg>
+
+<svg th:fragment="icone-cadastro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="9" cy="8" r="3.4"/>
+  <path d="M2.5 20c0-3.6 2.9-6.2 6.5-6.2 1 0 1.9.2 2.7.55"/>
+  <path d="M18 9v6M15 12h6"/>
+</svg>
+
+<svg th:fragment="icone-imagem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3.5" y="4.5" width="17" height="15" rx="2"/>
+  <circle cx="8.5" cy="9.5" r="1.6"/>
+  <path d="M20 16l-4.5-5-3.5 4-2-2L4 17.5"/>
+</svg>
+
+<svg th:fragment="icone-mais" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 5v14M5 12h14"/>
+</svg>
+
+<svg th:fragment="icone-editar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 20h4.2L19 9.2a2 2 0 0 0 0-2.8l-1.4-1.4a2 2 0 0 0-2.8 0L4 15.8V20Z"/>
+  <path d="M13.5 6.5l3 3"/>
+</svg>
+
+<svg th:fragment="icone-excluir" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M5 7h14"/>
+  <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+  <path d="M7 7l1 13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-13"/>
+  <path d="M10.5 11v6M13.5 11v6"/>
+</svg>
+
+<svg th:fragment="icone-coracao" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+  <path d="M12 20.2 4.6 13c-2.3-2.3-2.3-5.7 0-7.9 2.2-2.1 5.5-1.9 7.4.5 1.9-2.4 5.2-2.6 7.4-.5 2.3 2.2 2.3 5.6 0 7.9L12 20.2Z"/>
+</svg>
+
+<svg th:fragment="icone-abelha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="13.5" rx="5" ry="6" />
+  <path d="M7.2 11h9.6M7.6 14.5h8.8M8.3 18h7.4" stroke-width="1.3"/>
+  <path d="M9 7.7C8 6 6 5.3 4.3 6c1 1.8 2.6 2.8 4.3 2.9" fill="currentColor" stroke="none"/>
+  <path d="M15 7.7c1-1.7 3-2.4 4.7-1.7-1 1.8-2.6 2.8-4.3 2.9" fill="currentColor" stroke="none"/>
+  <path d="M12 7.5V5.3M10.3 4.6c.4.7 1 1.1 1.7 1.1s1.3-.4 1.7-1.1" stroke-width="1.3"/>
+</svg>
+
+</body>
+</html>

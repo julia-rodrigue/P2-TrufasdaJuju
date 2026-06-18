@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cardápio - Trufas da Juju</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .cardapio-header {
+            text-align: center;
+            padding: 2.5rem 1.5rem 0.5rem;
+        }
+        .cardapio-header h1 {
+            font-size: 1.8rem;
+            color: var(--rosa-escuro);
+            margin: 0 0 0.3rem;
+        }
+        .cardapio-header p {
+            color: var(--texto-medio);
+            font-size: 0.97rem;
+            margin: 0;
+        }
+
+        /* Grid de produtos */
+        .cardapio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.2rem;
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .produto-card {
+            background: var(--branco);
+            border: 1.5px solid #F2D4DF;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(227,110,151,0.08);
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .produto-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--sombra);
+        }
+        .produto-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+        .produto-card-corpo {
+            padding: 0.85rem 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .produto-card-nome {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--texto-escuro);
+            margin: 0;
+        }
+        .produto-card-desc {
+            font-size: 0.82rem;
+            color: var(--texto-medio);
+            margin: 0;
+            flex: 1;
+            line-height: 1.4;
+        }
+        .produto-card-rodape {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        .produto-card-preco {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--rosa-escuro);
+        }
+
+        /* Controle de quantidade */
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--rosa-claro);
+            color: var(--rosa-escuro);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color var(--transition);
+            line-height: 1;
+        }
+        .qty-btn:hover {
+            background-color: var(--rosa);
+            color: var(--branco);
+        }
+        .qty-valor {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--texto-escuro);
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Carrinho flutuante */
+        .carrinho-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--branco);
+            border-top: 2px solid var(--rosa-claro);
+            padding: 0.9rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            box-shadow: 0 -4px 16px rgba(227,110,151,0.18);
+            z-index: 100;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .carrinho-bar.visivel {
+            transform: translateY(0);
+        }
+        .carrinho-bar-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+        .carrinho-bar-qtd {
+            font-size: 0.82rem;
+            color: var(--texto-medio);
+            font-weight: 600;
+        }
+        .carrinho-bar-total {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--rosa-escuro);
+        }
+        .carrinho-bar-btn {
+            background-color: var(--rosa);
+            color: var(--branco);
+            border: none;
+            border-radius: 999px;
+            padding: 0.65rem 1.4rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: background-color var(--transition);
+            white-space: nowrap;
+        }
+        .carrinho-bar-btn:hover {
+            background-color: var(--rosa-escuro);
+        }
+
+        .vazio-msg {
+            text-align: center;
+            color: var(--texto-medio);
+            padding: 3rem 1.5rem;
+            font-size: 0.97rem;
+        }
+
+        /* espaço para o carrinho não sobrepor o conteúdo */
+        .cardapio-fim {
+            height: 5rem;
+        }
+
+        @media (max-width: 600px) {
+            .cardapio-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+                padding: 0 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="painel-admin">
+    <div th:replace="~{fragments/header :: cabecalho}"></div>
+
+    <div class="cardapio-header">
+        <h1>🍫 Cardápio</h1>
+        <p>Escolha os produtos e adicione ao seu pedido</p>
+    </div>
+
+    <div class="cardapio-grid">
+        <div class="produto-card"
+             th:each="produto : ${produtos}"
+             th:attr="data-id=${produto.id}, data-nome=${produto.nome}, data-preco=${produto.preco}">
+
+            <img th:if="${produto.caminhoImagem != null}"
+                 th:src="@{${produto.caminhoImagem}}"
+                 th:alt="${produto.nome}">
+            <img th:if="${produto.caminhoImagem == null}"
+                 th:src="@{/img/trufas.jpeg}" alt="Produto">
+
+            <div class="produto-card-corpo">
+                <h3 class="produto-card-nome" th:text="${produto.nome}">Nome</h3>
+                <p class="produto-card-desc" th:text="${produto.descricao}">Descrição</p>
+                <div class="produto-card-rodape">
+                    <span class="produto-card-preco"
+                          th:text="${'R$ ' + #numbers.formatDecimal(produto.preco, 1, 'COMMA', 2, 'POINT')}">R$ 0,00</span>
+                    <div class="qty-control">
+                        <button class="qty-btn btn-menos" type="button">−</button>
+                        <span class="qty-valor">0</span>
+                        <button class="qty-btn btn-mais" type="button">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p th:if="${#lists.isEmpty(produtos)}" class="vazio-msg">Nenhum produto disponível no momento.</p>
+
+    <div class="cardapio-fim"></div>
+
+    <!-- Barra do carrinho -->
+    <div class="carrinho-bar" id="carrinhoBar">
+        <div class="carrinho-bar-info">
+            <span class="carrinho-bar-qtd" id="carrinhoQtd">0 itens</span>
+            <span class="carrinho-bar-total" id="carrinhoTotal">R$ 0,00</span>
+        </div>
+        <button class="carrinho-bar-btn" onclick="irParaPedido()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            Fazer Pedido
+        </button>
+    </div>
+
+    <script>
+        const carrinho = {}; // { id: { nome, preco, qty } }
+
+        document.querySelectorAll('.produto-card').forEach(card => {
+            const id    = card.dataset.id;
+            const nome  = card.dataset.nome;
+            const preco = parseFloat(card.dataset.preco);
+            const qtyEl = card.querySelector('.qty-valor');
+
+            card.querySelector('.btn-mais').addEventListener('click', () => {
+                const atual = carrinho[id]?.qty || 0;
+                carrinho[id] = { nome, preco, qty: atual + 1 };
+                qtyEl.textContent = atual + 1;
+                atualizarCarrinho();
+            });
+
+            card.querySelector('.btn-menos').addEventListener('click', () => {
+                const atual = carrinho[id]?.qty || 0;
+                if (atual <= 0) return;
+                const novo = atual - 1;
+                if (novo === 0) delete carrinho[id];
+                else carrinho[id] = { nome, preco, qty: novo };
+                qtyEl.textContent = novo;
+                atualizarCarrinho();
+            });
+        });
+
+        function atualizarCarrinho() {
+            let totalItens = 0;
+            let totalValor = 0;
+            for (const item of Object.values(carrinho)) {
+                totalItens += item.qty;
+                totalValor += item.qty * item.preco;
+            }
+            document.getElementById('carrinhoQtd').textContent =
+                totalItens === 1 ? '1 item' : totalItens + ' itens';
+            document.getElementById('carrinhoTotal').textContent =
+                'R$ ' + totalValor.toFixed(2).replace('.', ',');
+            const bar = document.getElementById('carrinhoBar');
+            if (totalItens > 0) bar.classList.add('visivel');
+            else bar.classList.remove('visivel');
+        }
+
+        function irParaPedido() {
+            sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+            window.location.href = '/pedidos';
+        }
+    </script>
+</body>
+</html>
