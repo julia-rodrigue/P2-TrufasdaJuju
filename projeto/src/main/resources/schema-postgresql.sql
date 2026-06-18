@@ -1,5 +1,15 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
+-- ============================================================================
+-- CRIACAO DE TABELAS
+-- Usa CREATE TABLE IF NOT EXISTS para nao recriar tabelas existentes.
+-- Logo apos cada tabela, ALTER TABLE ... ADD COLUMN IF NOT EXISTS garante que
+-- bancos PERSISTENTES (Render) que ja tinham uma versao antiga da tabela
+-- recebam as colunas que faltam. Sem isso, o "IF NOT EXISTS" pula a tabela
+-- inteira e colunas novas (ex.: produto.imagem_id) nunca sao criadas,
+-- causando: ERROR: column "imagem_id" of relation "produto" does not exist.
+-- ============================================================================
+
 CREATE TABLE IF NOT EXISTS usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nome VARCHAR(150) NOT NULL,
@@ -11,6 +21,14 @@ CREATE TABLE IF NOT EXISTS usuario (
     tipo VARCHAR(20) NOT NULL DEFAULT 'CLIENTE',
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS nome            VARCHAR(150);
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS email           VARCHAR(150);
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS cpf             VARCHAR(14);
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS telefone        VARCHAR(20);
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS data_nascimento DATE;
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS senha_hash      VARCHAR(255);
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS tipo            VARCHAR(20) DEFAULT 'CLIENTE';
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS data_cadastro   TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
 CREATE TABLE IF NOT EXISTS imagem_produto (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -18,6 +36,9 @@ CREATE TABLE IF NOT EXISTS imagem_produto (
     caminho VARCHAR(255) NOT NULL,
     data_upload TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE imagem_produto ADD COLUMN IF NOT EXISTS nome_arquivo VARCHAR(255);
+ALTER TABLE imagem_produto ADD COLUMN IF NOT EXISTS caminho      VARCHAR(255);
+ALTER TABLE imagem_produto ADD COLUMN IF NOT EXISTS data_upload  TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
 CREATE TABLE IF NOT EXISTS produto (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -27,6 +48,23 @@ CREATE TABLE IF NOT EXISTS produto (
     imagem_id UUID,
     FOREIGN KEY (imagem_id) REFERENCES imagem_produto(id)
 );
+ALTER TABLE produto ADD COLUMN IF NOT EXISTS nome      VARCHAR(100);
+ALTER TABLE produto ADD COLUMN IF NOT EXISTS descricao TEXT;
+ALTER TABLE produto ADD COLUMN IF NOT EXISTS preco     NUMERIC(10,2);
+ALTER TABLE produto ADD COLUMN IF NOT EXISTS imagem_id UUID;
+-- Garante a FK de imagem_id mesmo em tabela antiga (ignora se ja existir).
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.table_constraints
+        WHERE constraint_name = 'produto_imagem_id_fkey'
+          AND table_name = 'produto'
+    ) THEN
+        ALTER TABLE produto
+            ADD CONSTRAINT produto_imagem_id_fkey
+            FOREIGN KEY (imagem_id) REFERENCES imagem_produto(id);
+    END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS pedido (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -39,6 +77,13 @@ CREATE TABLE IF NOT EXISTS pedido (
     status VARCHAR(50) DEFAULT 'PENDENTE',
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
+ALTER TABLE pedido ADD COLUMN IF NOT EXISTS usuario_id      UUID;
+ALTER TABLE pedido ADD COLUMN IF NOT EXISTS nome_cliente    VARCHAR(150);
+ALTER TABLE pedido ADD COLUMN IF NOT EXISTS telefone        VARCHAR(20);
+ALTER TABLE pedido ADD COLUMN IF NOT EXISTS data_pedido     TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE pedido ADD COLUMN IF NOT EXISTS forma_pagamento VARCHAR(50);
+ALTER TABLE pedido ADD COLUMN IF NOT EXISTS data_retirada   DATE;
+ALTER TABLE pedido ADD COLUMN IF NOT EXISTS status          VARCHAR(50) DEFAULT 'PENDENTE';
 
 CREATE TABLE IF NOT EXISTS item_pedido (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -49,18 +94,19 @@ CREATE TABLE IF NOT EXISTS item_pedido (
     FOREIGN KEY (pedido_id) REFERENCES pedido(id) ON DELETE CASCADE,
     FOREIGN KEY (produto_id) REFERENCES produto(id)
 );
+ALTER TABLE item_pedido ADD COLUMN IF NOT EXISTS pedido_id      UUID;
+ALTER TABLE item_pedido ADD COLUMN IF NOT EXISTS produto_id     UUID;
+ALTER TABLE item_pedido ADD COLUMN IF NOT EXISTS quantidade     INTEGER;
+ALTER TABLE item_pedido ADD COLUMN IF NOT EXISTS preco_unitario NUMERIC(10,2);
 
 -- ============================================================================
 -- SEED IDEMPOTENTE
--- Este script roda em TODA inicializacao (spring.sql.init.mode=always) contra
--- um banco PERSISTENTE (Render). Por isso cada INSERT de seed so insere se o
--- registro ainda nao existir. Sem isso, as imagens eram duplicadas a cada boot
--- e a subquery (SELECT id ... WHERE caminho = ...) passava a retornar mais de
--- uma linha, fazendo o INSERT em produto falhar (statement #8).
+-- Roda em TODA inicializacao (spring.sql.init.mode=always) contra um banco
+-- PERSISTENTE. Cada INSERT so insere se o registro ainda nao existir, evitando
+-- duplicatas e subqueries que retornariam mais de uma linha.
 -- ============================================================================
 
--- Imagens ja existentes no projeto (pasta static/img).
--- Insere cada imagem apenas se aquele caminho ainda nao estiver cadastrado.
+-- Imagens da pasta static/img. Insere cada caminho apenas se ainda nao existir.
 INSERT INTO imagem_produto (nome_arquivo, caminho)
 SELECT v.nome_arquivo, v.caminho
 FROM (VALUES
@@ -79,9 +125,8 @@ WHERE NOT EXISTS (
     SELECT 1 FROM imagem_produto ip WHERE ip.caminho = v.caminho
 );
 
--- Produtos. Insere cada produto apenas se ainda nao existir um com o mesmo nome.
--- A subquery usa LIMIT 1 como protecao extra: mesmo que existam imagens
--- duplicadas, retorna no maximo uma linha e nunca quebra o INSERT.
+-- Produtos. Insere apenas se ainda nao existir produto com o mesmo nome.
+-- A subquery usa LIMIT 1 como protecao caso haja imagens duplicadas.
 INSERT INTO produto (nome, descricao, preco, imagem_id)
 SELECT v.nome, v.descricao, v.preco,
        (SELECT id FROM imagem_produto WHERE caminho = v.caminho ORDER BY data_upload LIMIT 1)
